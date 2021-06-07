@@ -10,10 +10,11 @@ func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool) er
 
     var minAddress []bool
     var maxAddress []bool
-    prefixLength := pos + 1
+
     if isFirst {
-        minAddress = genMinAddress(ip, pos)
-        maxAddress = genMaxAddress(ip, pos)
+        prefixLength := pos
+        minAddress = genMinAddress(ip, pos - 1)
+        maxAddress = genMaxAddress(ip, pos - 1)
         if lowerEqual(ipBinaryBegin, minAddress) && lowerEqual(maxAddress, ipBinaryEnd) {
             cidr, err := genCidr(ip, prefixLength)
             if err != nil {
@@ -22,9 +23,10 @@ func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool) er
             cidrList = append(cidrList, cidr)
             return nil
         }
-        return dfs(ip, pos + 1, false, ipBinaryBegin, ipBinaryEnd)
+        return dfs(ip, pos, false, ipBinaryBegin, ipBinaryEnd)
     }
 
+    prefixLength := pos + 1
     ip[pos] = false
     minAddress = genMinAddress(ip, pos)
     maxAddress = genMaxAddress(ip, pos)

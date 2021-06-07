@@ -1,3 +1,4 @@
+// Package irtc provides a function to convert IP range to CIDR list.
 package irtc
 
 import (
@@ -28,7 +29,7 @@ func divideToCidrList(ipBegin, ipEnd []byte) ([]string, error) {
     return cidrList, nil
 }
 
-// convert ip range to cidrs
+// convert ip range to cidrs.
 // for example, we can divide [10.0.0.5, 10.0.0.7] to 10.0.0.5/32 and 10.0.0.6/31
 func ConvertIpRangeToCidrs(begin, end string) ([]string, error) {
     // reset cidrList
