@@ -22,7 +22,8 @@ func divideToCidrList(ipBegin, ipEnd []byte) ([]string, error) {
         return []string{cidr}, nil
     }
     ip := copyBoolSlice(ipBinaryBegin)
-    err = dfs(ip, startPos, true, ipBinaryBegin, ipBinaryEnd)
+    var cidrList []string
+    err = dfs(ip, startPos, true, ipBinaryBegin, ipBinaryEnd, &cidrList)
     if err != nil {
         return nil, err
     }
@@ -32,8 +33,6 @@ func divideToCidrList(ipBegin, ipEnd []byte) ([]string, error) {
 // convert ip range to cidrs.
 // for example, we can divide [10.0.0.5, 10.0.0.7] to 10.0.0.5/32 and 10.0.0.6/31
 func ConvertIpRangeToCidrs(begin, end string) ([]string, error) {
-    // reset cidrList
-    cidrList = nil
     // The type of ipBegin is []byte
     ipBegin := net.ParseIP(begin)
     if ipBegin == nil {

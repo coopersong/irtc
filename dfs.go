@@ -1,9 +1,7 @@
 package irtc
 
-var cidrList []string
-
 // depth-first search complete cidr list to represent ip range [ipBinaryBegin, ipBinaryEnd]
-func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool) error {
+func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool, cidrList *[]string) error {
     if pos >= len(ipBinaryBegin) {
         return nil
     }
@@ -20,10 +18,10 @@ func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool) er
             if err != nil {
                 return err
             }
-            cidrList = append(cidrList, cidr)
+            *cidrList = append(*cidrList, cidr)
             return nil
         }
-        return dfs(ip, pos, false, ipBinaryBegin, ipBinaryEnd)
+        return dfs(ip, pos, false, ipBinaryBegin, ipBinaryEnd, cidrList)
     }
 
     prefixLength := pos + 1
@@ -35,9 +33,9 @@ func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool) er
         if err != nil {
             return err
         }
-        cidrList = append(cidrList, cidr)
+        *cidrList = append(*cidrList, cidr)
     } else {
-        err := dfs(ip, pos + 1, false, ipBinaryBegin, ipBinaryEnd)
+        err := dfs(ip, pos + 1, false, ipBinaryBegin, ipBinaryEnd, cidrList)
         if err != nil {
             return nil
         }
@@ -51,9 +49,9 @@ func dfs(ip []bool, pos int, isFirst bool, ipBinaryBegin, ipBinaryEnd []bool) er
         if err != nil {
             return err
         }
-        cidrList = append(cidrList, cidr)
+        *cidrList = append(*cidrList, cidr)
     } else {
-        err := dfs(ip, pos + 1, false, ipBinaryBegin, ipBinaryEnd)
+        err := dfs(ip, pos + 1, false, ipBinaryBegin, ipBinaryEnd, cidrList)
         if err != nil {
             return err
         }

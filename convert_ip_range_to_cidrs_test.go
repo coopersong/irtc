@@ -17,11 +17,11 @@ func TestConvertIpRangeToCidrs(t *testing.T) {
         begin string
         end   string
         want  []string
-    } {
+    }{
         {
             "192.168.1.0",
             "192.168.1.255",
-            []string {
+            []string{
                 "192.168.1.0/24",
             },
         },
