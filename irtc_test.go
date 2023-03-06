@@ -225,8 +225,8 @@ func TestConvertIPRangeToCIDRs(t *testing.T) {
 					t.Errorf("want err: %v, got err: %v", tt.wantErr, err)
 				}
 			}
-			for i, cidr := range got {
-				if cidr != tt.want[i] {
+			for i, cidr := range tt.want {
+				if len(got) <= i || cidr != got[i] {
 					t.Errorf("run testCases[%d] failed", index)
 				}
 			}
