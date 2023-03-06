@@ -23,7 +23,7 @@ func ConvertIPRangeToCIDRs(begin, end string) ([]string, error) {
 		return nil, &net.ParseError{Type: "IP address", Text: end}
 	}
 
-	if lowerEqual(beginIP, endIP) {
+	if lowerEqual(beginIP, endIP) == false {
 		return nil, nil
 	}
 
