@@ -95,9 +95,9 @@ func dfs(begin, end, ip net.IP, pos int, result *[]string) {
 	maxAddr = genMaxAddress(ip, pos+1)
 	if lowerEqual(begin, minAddr) && lowerEqual(maxAddr, end) {
 		*result = append(*result, genCIDR(ip, pos+1))
-	} else {
-		dfs(begin, end, ip, pos+1, result)
+		return
 	}
+	dfs(begin, end, ip, pos+1, result)
 }
 
 func genCIDR(netIP net.IP, totalPrefix int) string {
@@ -105,7 +105,7 @@ func genCIDR(netIP net.IP, totalPrefix int) string {
 		return netIP.String() + "/" + strconv.Itoa(totalPrefix)
 	}
 
-	index := totalPrefix / 8
+	index := totalPrefix >> 3
 	prefix := totalPrefix % 8
 
 	ip := make(net.IP, len(netIP))
@@ -127,7 +127,7 @@ func genMinAddress(ip net.IP, pos int) net.IP {
 		return minAddr
 	}
 
-	index := pos / 8
+	index := pos >> 3
 	miniPos := pos % 8
 
 	mask := byte(0xff) << (8 - miniPos)
@@ -148,7 +148,7 @@ func genMaxAddress(ip net.IP, pos int) net.IP {
 		return maxAddr
 	}
 
-	index := pos / 8
+	index := pos >> 3
 	miniPos := pos % 8
 
 	mask := byte(0xff) >> miniPos
@@ -180,13 +180,13 @@ func lowerEqual(a net.IP, b net.IP) bool {
 }
 
 func setOne(ip net.IP, pos int) {
-	index := pos / 8
+	index := pos >> 3
 	miniPos := pos % 8
 	ip[index] |= byte(0xff) >> 7 << (8 - miniPos - 1)
 }
 
 func setZero(ip net.IP, pos int) {
-	index := pos / 8
+	index := pos >> 3
 	miniPos := pos % 8
 	ip[index] &= byte(0xff) << (8 - miniPos)
 }
