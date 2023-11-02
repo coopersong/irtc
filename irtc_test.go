@@ -125,7 +125,19 @@ func TestConvertIPRangeToCIDRs(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name: "parse error",
+			name: "end parse error",
+			args: args{
+				begin: "192.255.1.1",
+				end:   "192.268.1.289",
+			},
+			want: nil,
+			wantErr: &net.ParseError{
+				Type: "IP address",
+				Text: "192.268.1.289",
+			},
+		},
+		{
+			name: "begin parse error",
 			args: args{
 				begin: "192.268.1.288",
 				end:   "192.268.1.289",
